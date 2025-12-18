@@ -16,4 +16,4 @@ jwt:
   refresh-expiration: 604800000
 
 cors:
-  allowed-origins: http://localhost:5173,http://localhost:3000,http://192.168.1.23:5173
+  allowed-origins: http://localhost:5173,http://localhost:3000,http://192.168.1.23:5173,https://todolist-thuctap-nhom13.netlify.app
