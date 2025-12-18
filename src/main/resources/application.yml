@@ -8,7 +8,7 @@ spring:
       database: todoapp
 
 server:
-  port: 8017
+  port: ${PORT:8017}
 
 jwt:
   secret: ${JWT_SECRET:bXlTZWNyZXRLZXlGb3JKV1RUb2tlbkdlbmVyYXRpb25NdXN0QmVBdExlYXN0MjU2Qml0c0xvbmcxMjM0NTY3ODk=}
