@@ -28,39 +28,50 @@ public class SecurityConfig {
     private final CorsConfigurationSource corsConfigurationSource;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                // ✅ BẬT CORS
-                .cors(cors -> cors.configurationSource(corsConfigurationSource))
+    // public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    //     http
+    //             // ✅ BẬT CORS
+    //             .cors(cors -> cors.configurationSource(corsConfigurationSource))
 
-                // ❌ TẮT CSRF
-                .csrf(AbstractHttpConfigurer::disable)
+    //             // ❌ TẮT CSRF
+    //             .csrf(AbstractHttpConfigurer::disable)
 
-                // ❌ KHÔNG DÙNG SESSION
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+    //             // ❌ KHÔNG DÙNG SESSION
+    //             .sessionManagement(session ->
+    //                     session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-                // 🔥 QUAN TRỌNG NHẤT
-                .authorizeHttpRequests(auth -> auth
-                        // ✅ CHO PHÉP OPTIONS (CORS PREFLIGHT)
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+    //             // 🔥 QUAN TRỌNG NHẤT
+    //             .authorizeHttpRequests(auth -> auth
+    //                     // ✅ CHO PHÉP OPTIONS (CORS PREFLIGHT)
+    //                     .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                        // ✅ PUBLIC API
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/public/**").permitAll()
-                        .requestMatchers("/api/users/search").permitAll()
+    //                     // ✅ PUBLIC API
+    //                     .requestMatchers("/api/auth/**").permitAll()
+    //                     .requestMatchers("/api/public/**").permitAll()
+    //                     .requestMatchers("/api/users/search").permitAll()
 
-                        // 🔒 CÒN LẠI CẦN JWT
-                        .anyRequest().authenticated()
-                )
+    //                     // 🔒 CÒN LẠI CẦN JWT
+    //                     .anyRequest().authenticated()
+    //             )
 
-                .authenticationProvider(authenticationProvider())
+    //             .authenticationProvider(authenticationProvider())
 
-                // ✅ JWT FILTER
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+    //             // ✅ JWT FILTER
+    //             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-        return http.build();
-    }
+    //     return http.build();
+    // }
+    @Bean
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+        .csrf(csrf -> csrf.disable())
+        .cors(cors -> {})
+        .authorizeHttpRequests(auth -> auth
+            .anyRequest().permitAll()
+        );
+    return http.build();
+}
+
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
